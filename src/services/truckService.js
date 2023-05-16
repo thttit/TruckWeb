@@ -9,15 +9,14 @@ const Truck = function(truck){
     this.isDeleted = truck.isDeleted;
 };
 Truck.CreateNewTruck = (newTruck, result) => {
-    connection.query(`INSERT INTO orders ( id,userid, timestamp) 
-    SELECT o.userid , o.timestamp FROM users u INNER JOIN orders o ON  o.userid = u.id`, newStockitem, (err, res) => {
+    connection.query("INSERT INTO Truck SET ?", newTruck, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
-        console.log("created stockitem: ", { stockitemID: res.insertId, ...newStockitem });
-        result(null, { stockitemID: res.insertId, ...newStockitem });
+        console.log("created truck: ", { truckID: res.insertId, ...newTruck });
+        result(null, { truckID: res.insertId, ...newTruck });
     });
 };
 Truck.UpdateById = (stockitemID, stockitem, result) => {
@@ -40,8 +39,8 @@ Truck.UpdateById = (stockitemID, stockitem, result) => {
         }
     );
 };
-Truck.Delete = (stockitemID, result) => {
-    connection.query("UPDATE StockItem SET isDeleted = ? WHERE stockitemID = ?", [0, stockitemID], (err, res) => {
+Truck.Delete = (truckID, result) => {
+    connection.query("UPDATE Truck SET isDeleted = ? WHERE truckID = ?", [0, truckID], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(null, err);
@@ -52,12 +51,11 @@ Truck.Delete = (stockitemID, result) => {
             result({ kind: "not_found" }, null);
             return;
         }
-        console.log("deleted stockitem with stockitemID: ", stockitemID);
         result(null, res);
     });
 };
-Truck.findById = (stockitemID, result) => {
-    connection.query('SELECT * from StockItem WHERE stockitemID = ?', stockitemID, 
+Truck.findById = (truckID, result) => {
+    connection.query('SELECT * from Truck WHERE truckID = ?', truckID, 
     function(err, res){ 
         if (err) {
             result(err, null);

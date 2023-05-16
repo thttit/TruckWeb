@@ -29,6 +29,7 @@ User.UpdateById = (userID, user, result) => {
         `UPDATE Users SET firstname = ?, lastname = ?, phone = ?, email = ?, password = ? WHERE userID = ?`,
         [user.firstname, user.lastname, user.phone, user.email,user.password ? false : true, userID],
         (err, res) => {
+            console.log("res: ", res);
             if (err) {
                 console.log("error: ", err);
                 result(null, err);
@@ -62,6 +63,20 @@ User.Delete = (userID, result) => {
 };
 User.findByEmail = (email, result) => {
     connection.query(`SELECT * from Users WHERE email = ? `,email, 
+     (err, res) => {
+        if (err) {
+            result(err, null);
+            return;
+        }
+        if (res.length) {
+            result(null, res[0])
+            return;
+        }
+        result(null, null);
+    });
+};
+User.findByPassword = (password, result) => {
+    connection.query(`SELECT * from Users WHERE password = ? `,password, 
      (err, res) => {
         if (err) {
             result(err, null);

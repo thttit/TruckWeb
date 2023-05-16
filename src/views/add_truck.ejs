@@ -211,22 +211,20 @@
 
                         <!-- Page Heading -->
                         <!-- DataTales Example -->
-                        <form>
-                            
+                        <form action="/createtruck"  method="post">
                               <div class="form-group col-md-10">
-                                <label for="stock_item_name">Model</label>
-                                <input type="text" class="form-control" id="stock_item_name" >
+                                <label for="model">Model</label>
+                                <input type="text" class="form-control" id="model" >
                               </div>
                               <div class="form-group col-md-10 ">
-                                <label for="license">License-Plate</label>
-                                <input type="text" class="form-control" id="license" >
+                                <label for="lincensePlate">License-Plate</label>
+                                <input type="text" class="form-control" id="lincensePlate" >
                               </div>
                               <div class="form-group col-md-10 ">
                                 <label for="driver">Driver</label>
                                 <input type="text" class="form-control" id="driver" >
                               </div>
-                            <a href="./tb-truck.ejs" class="btn btn-primary ml-2" type="submit">Create</a>
-                            
+                            <button class="btn btn-primary ml-2" type="submit">Create</button>
                           </form>
                     </div>
                     <!-- /.container-fluid -->

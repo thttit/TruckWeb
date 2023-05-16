@@ -1,5 +1,4 @@
 const connection = require('../config/database');
-//const bcrypt = require('bcryptjs');
 
 const StockItem = function(stockitem){
     this.stockitemID = stockitem.stockitemID;
@@ -24,6 +23,7 @@ StockItem.UpdateById = (stockitemID, stockitem, result) => {
         `UPDATE StockItem SET quantity = ? WHERE stockitemID = ?`,
         [stockitem.quantity ? false : true, stockitemID],
         (err, res) => {
+            console.log("res: ", res);
             if (err) {
                 console.log("error: ", err);
                 result(null, err);
@@ -34,8 +34,8 @@ StockItem.UpdateById = (stockitemID, stockitem, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("updated user: ", { userID: userID, ...user });
-            result(null, { userID: userID, ...user });
+            console.log("updated user: ", { stockitemID: stockitemID, ...user });
+            result(null, { stockitemID: stockitemID, ...user });
         }
     );
 };

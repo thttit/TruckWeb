@@ -22,7 +22,7 @@ router.get('/addStaff', staffController.GetCreateStaff);
 router.post('/create-staff', staffController.Register);
 //Update Staff with userID
 router.get('/editStaff/:userID', staffController.EditStaff)
-router.post('/:userID', staffController.UpdateStaff);
+router.post('/staff/:userID', staffController.UpdateStaff);
 //Delete Staff with userID
 router.get('/deleteStaff/:userID', staffController.DeleteStaff);
 
@@ -30,7 +30,8 @@ router.get('/deleteStaff/:userID', staffController.DeleteStaff);
 router.get('/inventory', inventoryController.FindAllStockItem);
 //Create StockItem
 router.get('/addStockItem', inventoryController.GetCreateStockItem);
-router.post('/create-stockitem', inventoryController.CreateNew);
+router.post('/createstockitem', inventoryController.CreateNew);
+;
 //Update StockItem with stockitemID
 router.get('/editStockItem/:stockitemID', inventoryController.EditStockItem)
 router.post('/:stockitemID', inventoryController.UpdateStockItem);
@@ -40,12 +41,11 @@ router.get('/deleteStockItem/:stockitemID', inventoryController.DeleteStockItem)
 //Show all Truck
 router.get('/truck', truckController.FindAllTruck);
 //Create Truck
-router.get('/addStockItem', inventoryController.GetCreateStockItem);
-router.post('/create-stockitem', inventoryController.CreateNew);
-//Update Truck with truckID
-router.get('/editStockItem/:stockitemID', inventoryController.EditStockItem)
-router.post('/:stockitemID', inventoryController.UpdateStockItem);
-//Delete Truck with truckID
-router.get('/deleteStockItem/:stockitemID', inventoryController.DeleteStockItem);
+router.get('/addTruck', truckController.GetCreateTruck);
+router.post('/createtruck', truckController.CreateNew);
+//Edit truck
+router.get('/editTruck/:truckID',truckController.EditTruck);
+//Delete Staff with userID
+router.get('/deleteTruck/:truckID', truckController.DeleteTruck);
 
 module.exports = router;

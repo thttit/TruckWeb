@@ -2,7 +2,7 @@ const Truck = require('../services/truckService');
 require('dotenv').config();
 
 const GetEditTruck = (req, res) => {
-    res.render('edit_inventory');
+    res.render('edit_trucks');
 };
 const FindAllTruck = (req, res) => {
     Truck.getAll((err, data) => {
@@ -12,64 +12,58 @@ const FindAllTruck = (req, res) => {
     });
 };
 const GetCreateTruck = (req, res) => {
-    res.render('add_inventory');
+    res.render('add_truck');
 };
 const UpdateTruck = (req, res) => {
     // Validate Request
     if (!req.body) {
-        res.redirect('/inventory/' + '?status=error')
+        res.redirect('/truck');
     }
     Truck.UpdateById(
         req.params.stockitemID,
         new User(req.body),
         (err, data) => {
-            res.redirect('/inventory/' + '?status=success');
+            res.redirect('/truck');
         }
     );
 };
 
 const EditTruck = (req, res) => {
     //res.locals.status = req.query.status;
-    const stockitemID = req.params.stockitemID;
-    Truck.findById(stockitemID, (err, data) => {
+    const truckID = req.params.truckID;
+    Truck.findById(truckID, (err, data) => {
 
-    res.render('edit_inventory', { stockitem: data });
+    res.render('edit_trucks', { truck: data });
     });
 };
 
 const DeleteTruck = (req, res) => {
-    Truck.Delete(req.params.stockitemID, (err, data) => {
+    Truck.Delete(req.params.truckID, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                 res.redirect('/404');
             }
-        } else res.redirect('/inventory')
+        } else res.redirect('/truck')
     });
 };
 const CreateNew = (req, res) => {
-    const { name, quantity} = req.body;
-
-    if (name && quantity) {
-        Truck.findById(name, (err, user) => {
-            if (err || user) {
-                // A user with that email address does not exists
-                const conflictError = 'Truck credentials are exist.';
-                res.render('add_inventory', { name, quantity, conflictError });
-            }
-        })
+    const { model, lincensePlate, userID} = req.body;
+    if (model && lincensePlate && userID) {
+        console.log(">>>>>")
             // Create a User
-            const stockitem = new Truck({
-                name: name,
-                quantity: quantity,
+            const truck = new Truck({
+                truckID:parseInt(uuidv4()),
+                model: model,
+                lincensePlate: lincensePlate,
+                userID: userID
             });
-            Truck.CreateNewTruck(stockitem, (err, user) => {
+            Truck.CreateNewTruck(truck, (err, user) => {
                 if (!err) {
-                    res.redirect('/inventory');
+                    res.redirect('/truck');
                 }
             })
     } else {
-        const conflictError = 'Truck credentials are exist.';
-        res.render('add_inventory', { name, quantity, conflictError });
+        res.render('add_truck', { model, lincensePlate, userID });
     }
 }
 module.exports = {

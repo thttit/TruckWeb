@@ -250,8 +250,19 @@
                                   <% if (typeof password != "undefined" && password) { %> value="<%= password %>"<% } %> required>
                                 </div>
                               </div>
+                              <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="truckID">TruckID</label>
+                                  <input type="text" class="form-control" id="truckID" name="truckID" 
+                                  <% if (typeof truckID != "undefined" && truckID) { %> value="<%= truckID %>"<% } %> required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                  <label for="companyID">CompanyID</label>
+                                  <input type="text" class="form-control" id="companyID" name="companyID"
+                                  <% if (typeof companyID != "undefined" && companyID) { %> value="<%= companyID %>"<% } %> required>
+                                </div>
+                              </div>
                             <button class="btn btn-primary" type="submit">Create</button>
-                            
                           </form>
                     </div>
                     <!-- /.container-fluid -->

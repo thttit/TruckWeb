@@ -1,4 +1,5 @@
 const StockItem = require('../services/inventoryService');
+const {v4:uuidv4} = require('uuid')
 require('dotenv').config();
 
 const GetEditStockItem = (req, res) => {
@@ -17,13 +18,13 @@ const GetCreateStockItem = (req, res) => {
 const UpdateStockItem = (req, res) => {
     // Validate Request
     if (!req.body) {
-        res.redirect('/inventory/' + '?status=error')
+        res.redirect('/inventory')
     }
     StockItem.UpdateById(
         req.params.stockitemID,
-        new User(req.body),
+        StockItem(req.body),
         (err, data) => {
-            res.redirect('/inventory/' + '?status=success');
+            res.redirect('/inventory');
         }
     );
 };
@@ -48,17 +49,11 @@ const DeleteStockItem = (req, res) => {
 };
 const CreateNew = (req, res) => {
     const { name, quantity} = req.body;
-
     if (name && quantity) {
-        StockItem.findById(name, (err, user) => {
-            if (err || user) {
-                // A user with that email address does not exists
-                const conflictError = 'StockItem credentials are exist.';
-                res.render('add_inventory', { name, quantity, conflictError });
-            }
-        })
+        console.log(">>>>>")
             // Create a User
             const stockitem = new StockItem({
+                stockitemID:parseInt(uuidv4()),
                 name: name,
                 quantity: quantity,
             });
