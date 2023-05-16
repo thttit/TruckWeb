@@ -19,10 +19,10 @@ Truck.CreateNewTruck = (newTruck, result) => {
         result(null, { truckID: res.insertId, ...newTruck });
     });
 };
-Truck.UpdateById = (stockitemID, stockitem, result) => {
+Truck.UpdateById = (truckID, truck, result) => {
     connection.query(
-        `UPDATE StockItem SET quantity = ? WHERE stockitemID = ?`,
-        [stockitem.quantity ? false : true, stockitemID],
+        `UPDATE Truck SET userID = ? WHERE truckID = ?`,
+        [truck.userID ? false : true, truckID],
         (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -34,8 +34,7 @@ Truck.UpdateById = (stockitemID, stockitem, result) => {
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("updated user: ", { userID: userID, ...user });
-            result(null, { userID: userID, ...user });
+            result(null, { truckID: truckID, ...user });
         }
     );
 };

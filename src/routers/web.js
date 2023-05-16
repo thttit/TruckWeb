@@ -45,6 +45,7 @@ router.get('/addTruck', truckController.GetCreateTruck);
 router.post('/createtruck', truckController.CreateNew);
 //Edit truck
 router.get('/editTruck/:truckID',truckController.EditTruck);
+router.post('/:truckID', truckController.UpdateTruck);
 //Delete Staff with userID
 router.get('/deleteTruck/:truckID', truckController.DeleteTruck);
 

@@ -199,15 +199,12 @@
 
                         <!-- Page Heading -->
                         <!-- DataTales Example -->
-                        <form>
-                            
+                        <form action="/<%=truck.truckID %>" method="post">
                             <div class="form-group">
                               <label for="driver_name">Driver Name</label>
-                              <input type="text" class="form-control" id="driver_name" placeholder="driver name">
+                              <input type="text" class="form-control" id="driver_name" name="userID">
                             </div>
-                        
-                            <a href="./tb-truck.ejs" class="btn btn-primary" type="submit">Save</a>
-                            
+                            <a class="btn btn-primary" type="submit">Save</a>
                           </form>
                     </div>
                     <!-- /.container-fluid -->

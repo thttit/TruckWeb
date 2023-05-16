@@ -20,8 +20,8 @@ const UpdateTruck = (req, res) => {
         res.redirect('/truck');
     }
     Truck.UpdateById(
-        req.params.stockitemID,
-        new User(req.body),
+        req.params.truckID,
+        Truck(req.body),
         (err, data) => {
             res.redirect('/truck');
         }
