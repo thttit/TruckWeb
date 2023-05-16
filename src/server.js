@@ -8,7 +8,7 @@ const session = require('express-session');
 const path = require('path');
 
 const app = express(); //app express
-const port = process.env.PORT || 8081;
+const port = 80;
 const hostname = process.env.HOST_NAME;
 
 //config req.body
