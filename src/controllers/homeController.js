@@ -1,21 +1,18 @@
-const connection = require('../config/database');
-const staffService = require('../services/staffService');
+const User = require('../services/staffService');
 
-const getHomepage = async(req, res) =>{
+const getHomepage = (req, res) =>{
     //process data
     //call model 
-    //const [results, fields] = await staffService.getUserByName(req.body.lastname);
-    res.render('index.ejs', { user: req.user});
+    User.getAll((err, data) => {
+        if (err)
+            res.redirect('/')
+        else res.render('index.ejs', {user: data});
+    });
 };
-/*    connection.query(
-        'select * from Users u',
-        function (err, results, fields){
-            console.log(">>>results= ", results);
-        }
-        const [results,fields] = await connection.query('select * from Users u');
-    );*/
-//    const [results,fields] = await connection.query('select * from Users u');
-
+const get404page = (req, res) => {
+    res.render('404.ejs');
+};
 module.exports = {
-    getHomepage
+    getHomepage,
+    get404page
 };

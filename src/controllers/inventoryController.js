@@ -1,26 +1,83 @@
-const connection = require('../config/database');
+const StockItem = require('../services/inventoryService');
+require('dotenv').config();
 
-const getTbInventory = (req, res) =>{
-    res.render('tb-inventory.ejs')
+const GetEditStockItem = (req, res) => {
+    res.render('edit_inventory');
 };
-const createNewInventory = async (req, res) => {
-    try{
-        let data = {
-            firstname: req.body.firstname,
-            lastname: req.body.lastname,
-            email: req.body.email,
-            password: req.body.password
-        };
-        //create a new user
-        await registerService.createNewInventory(data);
-        return res.status(200).json({
-            message: "a user create succeeds"
-        })
-    }catch (e) {
-        return res.status(500).json(e);
+const FindAllStockItem = (req, res) => {
+    StockItem.getAll((err, data) => {
+        if (err)
+            res.redirect('/')
+        else res.render('tb-inventory', {stockitem: data});
+    });
+};
+const GetCreateStockItem = (req, res) => {
+    res.render('add_inventory');
+};
+const UpdateStockItem = (req, res) => {
+    // Validate Request
+    if (!req.body) {
+        res.redirect('/inventory/' + '?status=error')
     }
-  };
-module.exports ={
-    getTbInventory,
-    createNewInventory
+    StockItem.UpdateById(
+        req.params.stockitemID,
+        new User(req.body),
+        (err, data) => {
+            res.redirect('/inventory/' + '?status=success');
+        }
+    );
+};
+
+const EditStockItem = (req, res) => {
+    //res.locals.status = req.query.status;
+    const stockitemID = req.params.stockitemID;
+    StockItem.findById(stockitemID, (err, data) => {
+
+    res.render('edit_inventory', { stockitem: data });
+    });
+};
+
+const DeleteStockItem = (req, res) => {
+    StockItem.Delete(req.params.stockitemID, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.redirect('/404');
+            }
+        } else res.redirect('/inventory')
+    });
+};
+const CreateNew = (req, res) => {
+    const { name, quantity} = req.body;
+
+    if (name && quantity) {
+        StockItem.findById(name, (err, user) => {
+            if (err || user) {
+                // A user with that email address does not exists
+                const conflictError = 'StockItem credentials are exist.';
+                res.render('add_inventory', { name, quantity, conflictError });
+            }
+        })
+            // Create a User
+            const stockitem = new StockItem({
+                name: name,
+                quantity: quantity,
+            });
+            StockItem.CreateNewStockItem(stockitem, (err, user) => {
+                if (!err) {
+                    res.redirect('/inventory');
+                }
+            })
+    } else {
+        const conflictError = 'StockItem credentials are exist.';
+        res.render('add_inventory', { name, quantity, conflictError });
+    }
+}
+module.exports = {
+    CreateNew,
+    GetEditStockItem,
+    FindAllStockItem,
+    GetCreateStockItem,
+    UpdateStockItem,
+    EditStockItem,
+    DeleteStockItem
 };

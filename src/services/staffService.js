@@ -1,97 +1,138 @@
 const connection = require('../config/database');
-const bcrypt = require('bcryptjs');
+//const bcrypt = require('bcryptjs');
 
-const getAllUser = async () => {
-    let [results, fields] = await connection.query('SELECT userID, firstname, lastname, phone, email, role FROM Users');
-    return results;
+const User = function(user){
+    this.userID = user.userID;
+    this.firstname = user.firstname;
+    this.lastname = user.lastname;
+    this.email = user.email;
+    this.phone = user.phone;
+    this.role = user.role;
+    this.password = user.password;
+    this.truckID = user.truckID;
+    this.companyID = user.companyID;
+    this.isDeleted = user.isDeleted;
 };
-const getCurrentCompanyIdByUser = (companyID) => {
-    return new Promise((resolve, reject) => {
-        try {
-            connection.query("SELECT companyID from Users where companyID = ?", companyID, function (error, rows) {
-                if (error) reject(error);
-                if (rows.length > 0) resolve(true);
-                resolve(false);
-            })
-        } catch (e) {
-            reject(e);
+User.CreateNewUser = (newUser, result) => {
+    connection.query("INSERT INTO Users SET ?", newUser, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
         }
+        console.log("created user: ", { userID: res.insertId, ...newUser });
+        result(null, { userID: res.insertId, ...newUser });
     });
 };
-const CreateNewStaff = async(user) => {
-
-    const check = await getEmailUser(user.email);
-    const companyid = await getCompanyIdByUser(user.companyID);
-    if (check) {
-        res.send(`This email "${user.email}" has already exist. Please choose an other email`);
-    } else{
-        //hash user's password
-        const salt = bcrypt.genSaltSync(10);
-
-        let firstname = user.firstname;
-        let lastname = user.lastname;
-        let email = user.email;
-        let phone = user.phone;
-        let role = user.role;
-        let password = bcrypt.hashSync(user.password, salt);
-        let companyID = user.companyID;
-
-        
-        //create a new user (truyền động)
-        connection.query(`INSERT INTO Users(firstname, lastname, email, phone, role, password) 
-                VALUES (?,?,?,?,?,?)`, [firstname, lastname, email, phone, role, password], function (err, results) {
-            console.log(results);
-        });
-    }
-};
-
-const getUserById = (userID) => {
-    return new Promise((resolve, reject) => {
-        try {
-            connection.query("SELECT * from Users where userID = ?", userID, function (error, rows) {
-                if (error) reject(error);
-                if (rows.length > 0) resolve(true);
-                resolve(false);
-            })
-        } catch (e) {
-            reject(e);
+User.UpdateById = (userID, user, result) => {
+    connection.query(
+        `UPDATE Users SET firstname = ?, lastname = ?, phone = ?, email = ?, password = ? WHERE userID = ?`,
+        [user.firstname, user.lastname, user.phone, user.email,user.password ? false : true, userID],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            } 
+            if (res.affectedRows == 0) {
+                // not found user with the id
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            console.log("updated user: ", { userID: userID, ...user });
+            result(null, { userID: userID, ...user });
         }
+    );
+};
+User.Delete = (userID, result) => {
+    connection.query("UPDATE Users SET isDeleted = ? WHERE userID = ?", [0, userID], (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        if (res.affectedRows == 0) {
+            // not found todo with the id
+            result({ kind: "not_found" }, null);
+            return;
+        }
+        console.log("deleted user with userID: ", userID);
+        result(null, res);
     });
 };
-
-const getUserByName = (lastname) => {
-    return new Promise((resolve, reject) => {
-        try {
-            connection.query("SELECT * from Users where lastname = ?", lastname, function (error, rows) {
-                if (error) reject(error);
-                if (rows.length > 0) resolve(true);
-                resolve(false);
-            })
-        } catch (e) {
-            reject(e);
+User.findByEmail = (email, result) => {
+    connection.query(`SELECT * from Users WHERE email = ? `,email, 
+     (err, res) => {
+        if (err) {
+            result(err, null);
+            return;
         }
+        if (res.length) {
+            result(null, res[0])
+            return;
+        }
+        result(null, null);
     });
 };
-
-const getEmailUser = (email) => {
-    return new Promise((resolve, reject) => {
-        try {
-            connection.query("SELECT * from Users where email = ?", email, function (error, rows) {
-                if (error) reject(error);
-                if (rows.length > 0) resolve(true);
-                resolve(false);
-            })
-        } catch (e) {
-            reject(e);
+User.findById = (userID, result) => {
+    connection.query('SELECT * from Users WHERE userID = ?', userID, 
+    function(err, res){ 
+        if (err) {
+            result(err, null);
+            return;
         }
+        if (res.length) {
+            result(null, res[0])
+            return;
+        }
+        result(null, null);
     });
 };
-
-module.exports = {
-    getAllUser,
-    getCurrentCompanyIdByUser,
-    CreateNewStaff,
-    getUserById,
-    getUserByName,
-    getEmailUser
+User.verify = (email, result) => {
+    connection.query(
+        "UPDATE Users SET email_verified_at = ? WHERE email = ?",
+        [new Date(), email],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { email: email });
+        }
+    );
 };
+User.ResetPassword = (email, password, result) => {
+    connection.query(
+        "UPDATE Users SET password = ? WHERE email = ?",
+        [password, email],
+        (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.affectedRows == 0) {
+                result({ kind: "not_found" }, null);
+                return;
+            }
+            result(null, { email: email });
+        }
+    );
+};
+User.getAll = result => {
+     connection.query("SELECT userID, firstname, lastname, phone, email, role FROM Users", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+        }
+        console.log("User: ", res);
+        result(null, res);
+    });
+};
+module.exports = User;

@@ -59,20 +59,20 @@
 
             <!-- Nav Item - Tables -->
             <li class="nav-item ">
-                <a class="nav-link" href="./tb-staff.ejs">
+                <a class="nav-link" href="/staff">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Staffs</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item active">
-                <a class="nav-link" href="./tb-inventory.ejs">
+                <a class="nav-link" href="/inventory">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Inventory</span></a>
             </li>
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="./tb-truck.ejs">
+                <a class="nav-link" href="/truck">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Trucks</span></a>
             </li>
@@ -153,7 +153,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline
-                                        text-gray-600 small">Douglas McGee</span>
+                                        text-gray-600 small">Hello</span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -189,10 +189,11 @@
                     <!-- DataTales Example -->
                     <div class="card shadow">
                         <div class="card-header">
-                            
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h6 class="m-0 font-weight-bold text-primary">Stock Item</h6>
-                                <a asp-controller="Truck" asp-action="Create" href="./add_inventory.ejs"><button class="btn btn-primary">Create</button></a>
+                                <form action="/addStockItem" method="get">
+                                <a asp-controller="Truck" asp-action="Create"><button class="btn btn-primary">Create</button></a>
+                                </form>
                             </div>
                         </div>
                         <div class="card-body">
@@ -208,11 +209,11 @@
                                         </tr>
                                     </thead>
                                     <tbody class="table-border-bottom-0">
-                                        <% listStockItem.forEach(function(stockitem) { %>
+                                        <% stockitem.forEach(function(stockitem) { %>
                                         <tr>
                                             <td><%= stockitem.stockitemID %></td>
                                             <td><%= stockitem.name %></td>
-                                            <td><%= stockitem.quality %></td>
+                                            <td><%= stockitem.quatity %></td>
                                             <td>
                                                 <div>
                                                     <ul class="navbar-nav ml-auto">
@@ -220,8 +221,8 @@
                                                             <a class="nav-link bx bx-dots-vertical-rounded" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             </a>
                                                             <div class="dropdown-menu dropdown-menu-right animated--fade-in" aria-labelledby="navbarDropdown">
-                                                                <a class="dropdown-item" href="./edit_inventory.ejs">Edit</a>
-                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                                <a class="dropdown-item" href="/editStockItem/<%= stockitem.stockitemID %>">Edit</a>
+                                                                <a class="dropdown-item" href="/deleteStockItem/<%= stockitem.stockitemID %>">Delete</a>
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -276,8 +277,10 @@
                 </div>
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
+                    <form method="GET" action="/logout">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="./login.ejs">Logout</a>
+                    <a class="btn btn-primary">Logout</a>
+                    </form>
                 </div>
             </div>
         </div>

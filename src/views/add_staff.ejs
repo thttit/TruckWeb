@@ -59,20 +59,20 @@
 
                 <!-- Nav Item - Tables -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="./tb-staff.ejs">
+                    <a class="nav-link" href="/staff">
                         <i class="fas fa-fw fa-table"></i>
                         <span>Staffs</span></a>
                 </li>
 
                 <!-- Nav Item - Tables -->
                 <li class="nav-item">
-                    <a class="nav-link" href="./tb-inventory.ejs">
+                    <a class="nav-link" href="/inventory">
                         <i class="fas fa-fw fa-table"></i>
                         <span>Inventory</span></a>
                 </li>
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="./tb-truck.ejs">
+                <a class="nav-link" href="/truck">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Trucks</span></a>
             </li>
@@ -168,7 +168,7 @@
                                     data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline
-                                        text-gray-600 small">Douglas McGee</span>
+                                        text-gray-600 small">Hello</span>
                                     <img class="img-profile rounded-circle"
                                         src="img/undraw_profile.svg">
                                 </a>
@@ -192,13 +192,15 @@
                                         Activity Log
                                     </a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#"
+                                    <form method="GET" action="/logout">
+                                    <a class="dropdown-item"
                                         data-toggle="modal"
                                         data-target="#logoutModal">
                                         <i class="fas fa-sign-out-alt fa-sm
                                             fa-fw mr-2 text-gray-400"></i>
                                         Logout
                                     </a>
+                                    </form>
                                 </div>
                             </li>
 
@@ -211,38 +213,44 @@
 
                         <!-- Page Heading -->
                         <!-- DataTales Example -->
-                        <form action="/staff" method="POST">
+                        <form action="/create-staff" method="POST">
                             <div class="form-row">
                               <div class="form-group col-md-6">
                                 <label for="firstname">First Name</label>
-                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="firstname">
+                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="firstname"
+                                <% if (typeof firstname != "undefined" && firstname) { %> value="<%= firstname %>"<% } %> required>
                               </div>
                               <div class="form-group col-md-6">
                                 <label for="lastname">Last Name</label>
-                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="lastname">
+                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="lastname"
+                                <% if (typeof lastname != "undefined" && lastname) { %> value="<%= lastname %>"<% } %> required>
                               </div>
                             </div>
                             <div class="form-row">
                               <div class="form-group col-md-6">
                                 <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" name="phone">
+                                <input type="text" class="form-control" id="phone" name="phone"
+                                <% if (typeof phone != "undefined" && phone) { %> value="<%= phone %>"<% } %> required>
                               </div>
                               <div class="form-group col-md-6">
                                 <label for="email">Email</label>
-                                <input type="text" class="form-control" id="email" name="email">
+                                <input type="text" class="form-control" id="email" name="email"
+                                <% if (typeof email != "undefined" && email) { %> value="<%= email %>"<% } %> required>
                               </div>
                             </div>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                  <label for="firstname">Role</label>
-                                  <input type="text" class="form-control" id="role" name="role" >
+                                  <label for="role">Role</label>
+                                  <input type="text" class="form-control" id="role" name="role" 
+                                  <% if (typeof role != "undefined" && role) { %> value="<%= role %>"<% } %> required>
                                 </div>
                                 <div class="form-group col-md-6">
-                                  <label for="lastname">Password</label>
-                                  <input type="text" class="form-control" id="password" name="password">
+                                  <label for="password">Password</label>
+                                  <input type="text" class="form-control" id="password" name="password"
+                                  <% if (typeof password != "undefined" && password) { %> value="<%= password %>"<% } %> required>
                                 </div>
                               </div>
-                            <a href="/staff" class="btn btn-primary" type="submit">Create</a>
+                            <button class="btn btn-primary" type="submit">Create</button>
                             
                           </form>
                     </div>

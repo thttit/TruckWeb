@@ -152,7 +152,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline
-                                        text-gray-600 small">Douglas McGee</span>
+                                        text-gray-600 small">Hello</span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -208,12 +208,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <% listTruck.forEach(function(truck) { %>
+                                        <% truck.forEach(function(truck) { %>
                                         <tr data-toggle="collapse" data-target="#collapse1" class="parent">
                                             <td><%= truck.truckID %></td>
                                             <td><%= truck.model %></td>
-                                            <td><%= truck.licensePlate %></td>
-                                            <td><%= truck.role %></td>
+                                            <td><%= truck.lincensePlate %></td>
+                                            <td><%= truck.lastname %></td>
                                             <td>
                                                 <div>
                                                     <ul class="navbar-nav ml-auto">
@@ -221,8 +221,8 @@
                                                             <a class="nav-link bx bx-dots-vertical-rounded" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             </a>
                                                             <div class="dropdown-menu dropdown-menu-right animated--fade-in" aria-labelledby="navbarDropdown">
-                                                                <a class="dropdown-item" href="./edit_trucks.ejs">Edit</a>
-                                                                <a class="dropdown-item" href="#">Delete</a>
+                                                                <a class="dropdown-item" href="/editTruck/:truckID">Edit</a>
+                                                                <a class="dropdown-item" href="/deleteTruck/:truckID">Delete</a>
                                                             </div>
                                                         </li>
                                                     </ul>

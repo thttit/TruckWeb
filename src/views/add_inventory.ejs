@@ -59,20 +59,20 @@
 
                 <!-- Nav Item - Tables -->
                 <li class="nav-item active">
-                    <a class="nav-link" href="./tb-staff.ejs">
+                    <a class="nav-link" href="/staff">
                         <i class="fas fa-fw fa-table"></i>
                         <span>Staffs</span></a>
                 </li>
 
                 <!-- Nav Item - Tables -->
                 <li class="nav-item">
-                    <a class="nav-link" href="./tb-inventory.ejs">
+                    <a class="nav-link" href="/staff">
                         <i class="fas fa-fw fa-table"></i>
                         <span>Inventory</span></a>
                 </li>
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="./tb-truck.ejs">
+                <a class="nav-link" href="/truck">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Trucks</span></a>
             </li>
@@ -168,7 +168,7 @@
                                     data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline
-                                        text-gray-600 small">Douglas McGee</span>
+                                        text-gray-600 small">Hello</span>
                                     <img class="img-profile rounded-circle"
                                         src="img/undraw_profile.svg">
                                 </a>
@@ -192,6 +192,7 @@
                                         Activity Log
                                     </a>
                                     <div class="dropdown-divider"></div>
+                                    <form method="GET" action="/logout">
                                     <a class="dropdown-item" href="#"
                                         data-toggle="modal"
                                         data-target="#logoutModal">
@@ -199,6 +200,7 @@
                                             fa-fw mr-2 text-gray-400"></i>
                                         Logout
                                     </a>
+                                    </form>
                                 </div>
                             </li>
 
@@ -211,19 +213,17 @@
 
                         <!-- Page Heading -->
                         <!-- DataTales Example -->
-                        <form>
-                            
+                        <form action="/create-stockitem" method="POST">
                               <div class="form-group col-md-10">
                                 <label for="stock_item_name">Stock Item Name</label>
-                                <input type="text" class="form-control" id="stock_item_name" >
+                                <input type="text" class="form-control" id="name" name="name" 
+                                >
                               </div>
                               <div class="form-group col-md-10 ">
                                 <label for="quantity">Quantity</label>
-                                <input type="number" class="form-control" id="quantity" >
+                                <input type="text" class="form-control" id="quantity" name="quantity">
                               </div>
-                            
-                            <a href="./tb-inventory.ejs" class="btn btn-primary ml-2" type="submit">Create</a>
-                            
+                            <button class="btn btn-primary ml-2" type="submit">Create</button>
                           </form>
                     </div>
                     <!-- /.container-fluid -->
@@ -269,29 +269,31 @@
                     <div class="modal-body">Select "Logout" below if you are
                         ready to end your current session.</div>
                     <div class="modal-footer">
+                        <form method="GET" action="/logout">
                         <button class="btn btn-secondary" type="button"
                             data-dismiss="modal">Cancel</button>
-                        <a class="btn btn-primary" href="./login.ejs">Logout</a>
+                        <a class="btn btn-primary">Logout</a>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="../public/vendor/jquery/jquery.min.js"></script>
+        <script src="../public/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="../public/vendor/jquery-easing/jquery.easing.min.js"></script>
 
         <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
+        <script src="../public/js/sb-admin-2.min.js"></script>
 
         <!-- Page level plugins -->
-        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <script src="../public/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="../public/vendor/datatables/dataTables.bootstrap4.min.js"></script>
         <!-- Page level custom scripts -->
-        <script src="js/demo/datatables-demo.js"></script>
+        <script src="../public/js/demo/datatables-demo.js"></script>
 
     </body>
 

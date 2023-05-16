@@ -5,12 +5,10 @@ const webRoutes = require('./routers/web.js');
 const connectFlash = require('connect-flash');
 const passport = require('passport');
 const session = require('express-session');
-const connection = require('./config/database.js');
-const mysql = require('mysql2');
 const path = require('path');
 
 const app = express(); //app express
-const port = process.env.PORT;
+const port = process.env.PORT || 8081;
 const hostname = process.env.HOST_NAME;
 
 //config req.body
